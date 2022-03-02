@@ -2,12 +2,13 @@ import React from 'react';
 import './taskItem.css';
 import { FaTrash } from "react-icons/fa";
 
-const TaskItem = () => {
+const TaskItem = ({task, deleteTask, handleChangeStatus}) => {
+
     return (
         <li className="taskItem">
-            <input type="checkbox"></input>
-            <h2>Build This App</h2>
-            <button><FaTrash /></button>
+            <input onChange={()=>{handleChangeStatus(task.id)}} type="checkbox" checked={task.status}></input>
+            <h2>{task.title}</h2>
+            <button onClick={()=>{deleteTask(task.id)}}><FaTrash /></button>
         </li>
     );
 }

@@ -1,15 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './filterFooter.css'
 
-const FliterFooter = () => {
+const FliterFooter = ({tasks, updateFilter}) => {
+    const [filter, setFilter] = useState('all')
+    const handleFilter = (filterName) => {
+        setFilter(filterName)
+        updateFilter(filterName)
+    }
+
     return (
         <div className="filterFooter">
-            <div className="filterFooter__countItems">2 items</div>
+            <div className="filterFooter__countItems">{tasks.length} items</div>
             <div className="filterFooter__filters">
                 <ul>
-                    <li><button>All</button></li>
-                    <li><button>Active</button></li>
-                    <li><button className="active">Completed</button></li>
+                    <li><button onClick={()=>{handleFilter('all')}} className={filter === "all"? "active":""}>All</button></li>
+                    <li><button onClick={()=>{handleFilter('active')}} className={filter === "active"? "active":""}>Active</button></li>
+                    <li><button onClick={()=>{handleFilter('completed')}} className={filter === "completed"? "active":""}>Completed</button></li>
                 </ul>
             </div>
         </div>
