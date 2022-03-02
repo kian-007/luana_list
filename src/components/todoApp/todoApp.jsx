@@ -23,7 +23,7 @@ const TodoApp = () => {
             setTasks([
                 {
                     id: uuid(),
-                    title: "Build Your First Task (^_^)",
+                    title: "Build Your First Task myLittleBabe (^_^)",
                     status: false
                 }
             ])
