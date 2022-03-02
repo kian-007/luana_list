@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './todoApp.css'
 import {
     AddTaskForm,
     TaskList,
     FilterFooter,
 } from '../';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 
 const TodoApp = () => {
@@ -16,25 +16,33 @@ const TodoApp = () => {
 
     useEffect(() => {
         let storedTasks = localStorage.getItem('tasks')
-        if(storedTasks){
+        if (storedTasks) {
             storedTasks = JSON.parse(storedTasks)
+            setTasks(storedTasks)
+        } else {
+            setTasks([
+                {
+                    id: uuid(),
+                    title: "Build Your First Task (^_^)",
+                    status: false
+                }
+            ])
         }
-        setTasks(storedTasks)
     }, [])
 
-    useEffect(()=>{
-        if(filter === 'all'){
+    useEffect(() => {
+        if (filter === 'all') {
             setFilteredTasks(tasks)
         }
-        if(filter === 'completed'){
-            const newCompletedFilteredTasks = tasks.filter(task=> task.status)
+        if (filter === 'completed') {
+            const newCompletedFilteredTasks = tasks.filter(task => task.status)
             setFilteredTasks(newCompletedFilteredTasks)
         }
-        if(filter === 'active'){
-            const newActiveFilteredTasks = tasks.filter(task=> !task.status)
+        if (filter === 'active') {
+            const newActiveFilteredTasks = tasks.filter(task => !task.status)
             setFilteredTasks(newActiveFilteredTasks)
         }
-    },[filter, tasks, refresh])
+    }, [filter, tasks, refresh])
 
     const addTask = (taskTitle) => {
         const newTasks = [
@@ -51,8 +59,8 @@ const TodoApp = () => {
 
     const deleteTask = (taskId) => {
         let newTasksList = tasks
-        delete newTasksList[tasks.findIndex(task=> task.id === taskId)]
-        newTasksList = newTasksList.filter((item)=> item);
+        delete newTasksList[tasks.findIndex(task => task.id === taskId)]
+        newTasksList = newTasksList.filter((item) => item);
         setTasks(newTasksList)
         localStorage.setItem('tasks', JSON.stringify(newTasksList))
 
@@ -63,16 +71,16 @@ const TodoApp = () => {
 
     const handleChangeStatus = (taskId) => {
         let newTasksList = tasks
-        const taskIndex = tasks.findIndex(task=> task.id === taskId)
+        const taskIndex = tasks.findIndex(task => task.id === taskId)
         newTasksList[taskIndex].status = !newTasksList[taskIndex].status
         setTasks(newTasksList)
         localStorage.setItem('tasks', JSON.stringify(newTasksList))
-        setRefresh(refresh+1)
+        setRefresh(refresh + 1)
     }
 
     return (
         <div className="todoApp">
-            <AddTaskForm  addTask={addTask} />
+            <AddTaskForm addTask={addTask} />
             <TaskList tasks={filteredTasks} deleteTask={deleteTask} handleChangeStatus={handleChangeStatus} />
             <FilterFooter updateFilter={setFilter} tasks={filteredTasks} />
         </div>
