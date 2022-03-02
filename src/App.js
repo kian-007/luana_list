@@ -4,16 +4,15 @@ import {
   AddTaskForm,
   TaskList,
   FilterFooter,
-  Footer
+  Footer,
+  TodoApp
 } from './components'
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <AddTaskForm />
-      <TaskList />
-      <FilterFooter />
+      <TodoApp />
       <Footer />
     </div>
   );
