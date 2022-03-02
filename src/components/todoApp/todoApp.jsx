@@ -1,4 +1,5 @@
 import React from 'react';
+import './todoApp.css'
 import {
     AddTaskForm,
     TaskList,
@@ -7,7 +8,7 @@ import {
 
 const TodoApp = () => {
     return (
-        <div>
+        <div className="todoApp">
             <AddTaskForm />
             <TaskList />
             <FilterFooter />

@@ -1,8 +1,11 @@
 import React from 'react';
+import './footer.css';
 
 const Footer = () => {
     return (
-        <div>Developed For MyLove @Kiana</div>
+        <div className="footer">
+            Developed For MyLove @Kiana
+        </div>
     );
 }
 
