@@ -1,0 +1,5 @@
+export {default as Header} from './header/header'
+export {default as AddTaskForm} from './addTaskForm/addTaskForm'
+export {default as TaskList} from './taskList/taskList'
+export {default as FilterFooter} from './filterFooter/filterFooter'
+export {default as Footer} from './footer/footer'
