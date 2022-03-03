@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Web site created using create-react-app" />
@@ -22,12 +22,52 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Kucuk's ToDo</title>
+    <style>
+        .loader-holder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+        .loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: auto auto;
+            border: 12px solid gray;
+            border-top: 12px solid purple;
+            /*
+          border-right: 12px solid green;
+          border-bottom: 12px solid red;
+          border-left: 12px solid pink;
+          */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin linear 0.7s infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg)
+            }
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+    </style>
 </head>
 
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+        <div class="loader-holder">
+            <div class="loader"></div>
+        </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
