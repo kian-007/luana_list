@@ -6,6 +6,7 @@ import {
     FilterFooter,
 } from '../';
 import { v4 as uuid } from 'uuid';
+import { RestFulApi } from '../../apis/api';
 
 
 const TodoApp = () => {
@@ -13,21 +14,37 @@ const TodoApp = () => {
     const [filteredTasks, setFilteredTasks] = useState([])
     const [filter, setFilter] = useState('all')
     const [refresh, setRefresh] = useState(0)
+    
 
     useEffect(() => {
-        let storedTasks = localStorage.getItem('tasks')
-        if (storedTasks) {
-            storedTasks = JSON.parse(storedTasks)
-            setTasks(storedTasks)
-        } else {
-            setTasks([
-                {
-                    id: uuid(),
-                    title: "Build Your First Task myLittleBabe (^_^)",
-                    status: false
+
+        // let storedTasks = localStorage.getItem('tasks')
+        // if (storedTasks) {
+        //     storedTasks = JSON.parse(storedTasks)
+        //     setTasks(storedTasks)
+        // } else {
+            let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=get_all_list`)
+            res.then(function (value) {
+                value.map(function (value) {
+                    value.status  =  value.status - 0
+                    console.log(typeof value.status)
+                })
+                setTasks(value)
+                if(!value || value == '') {
+                    setTasks([
+                        {
+                            id: uuid(),
+                            title: "Build Your First Task Partner (^_^)",
+                            amount: "blah blah blah kiloo",
+                            status: 0
+                        }
+                    ])
                 }
-            ])
-        }
+            });
+            res.catch(function (err) {
+                console.log("reason", err)
+            })
+        // }
     }, [])
 
     useEffect(() => {
@@ -44,43 +61,93 @@ const TodoApp = () => {
         }
     }, [filter, tasks, refresh])
 
-    const addTask = (taskTitle) => {
+    const addTask = (taskTitle, taskAmount) => {
         const newTasks = [
             ...tasks,
             {
                 id: uuid(),
                 title: taskTitle,
-                status: false
+                amount: taskAmount,
+                status: 0
             },
         ]
+        console.log("lastTask: ", newTasks[newTasks.length - 1])
+        let lastTask = newTasks[newTasks.length - 1]
         setTasks(newTasks)
         localStorage.setItem('tasks', JSON.stringify(newTasks))
+
+
+
+        const myJSON = JSON.stringify(lastTask);
+        let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=add_list&arg1=${myJSON}`)
+            res.then(function (value) {
+                console.log("response value: ", value)
+            });
+            res.catch(function (err) {
+                console.log("response err reason: ", err)
+            })
+        
     }
+
 
     const deleteTask = (taskId) => {
-        let newTasksList = tasks
-        delete newTasksList[tasks.findIndex(task => task.id === taskId)]
-        newTasksList = newTasksList.filter((item) => item);
-        setTasks(newTasksList)
-        localStorage.setItem('tasks', JSON.stringify(newTasksList))
+        let newTask = tasks
+        delete newTask[tasks.findIndex(task => task.id === taskId)]
+        newTask = newTask.filter((item) => item);
+        setTasks(newTask)
+        localStorage.setItem('tasks', JSON.stringify(newTask))
 
-        // let newTasksList = tasks
-        // newTasksList.splice(tasks.findIndex(task=> task.id === taskId),0)
-        // console.log("tasks", newTasksList)
+        // let newTask = tasks
+        // newTask.splice(tasks.findIndex(task=> task.id === taskId),0)
+        // console.log("tasks", newTask)
+
+
+        let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=delete_list&arg1=${taskId}`)
+            res.then(function (value) {
+                console.log("response value: ", value)
+            });
+            res.catch(function (err) {
+                console.log("response err reason: ", err)
+            })
+
     }
 
+    // console.log("show me tasks: ", tasks)
     const handleChangeStatus = (taskId) => {
-        let newTasksList = tasks
+        let newTask = tasks
         const taskIndex = tasks.findIndex(task => task.id === taskId)
-        newTasksList[taskIndex].status = !newTasksList[taskIndex].status
-        setTasks(newTasksList)
-        localStorage.setItem('tasks', JSON.stringify(newTasksList))
+
+        newTask[taskIndex].status = !newTask[taskIndex].status
+        
+
+        //-----------------------in mohem tarin bakhsh az in code (deqat shavad)(khodamm nafahmidm chera)------
+        if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
+            newTask[taskIndex].status = Number(newTask[taskIndex].status)
+        } 
+
+        //-----------------------
+
+        
+        console.log("type: ", typeof(newTask[taskIndex].status));
+        setTasks(newTask)
+        localStorage.setItem('tasks', JSON.stringify(newTask))
         setRefresh(refresh + 1)
+
+        
+                let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
+                res.then(function (value) {
+                    console.log("list updated: ", value)
+                });
+                res.catch(function (err) {
+                    console.log("list didnt update: ", err)
+                })
+
+        
     }
 
     return (
         <div className="todoApp">
-            <AddTaskForm addTask={addTask} />
+            <AddTaskForm addTask={addTask}  />
             <TaskList tasks={filteredTasks} deleteTask={deleteTask} handleChangeStatus={handleChangeStatus} />
             <FilterFooter updateFilter={setFilter} tasks={filteredTasks} />
         </div>

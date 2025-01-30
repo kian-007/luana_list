@@ -4,7 +4,7 @@ import './footer.css';
 const Footer = () => {
     return (
         <div className="footer">
-            Developed For MyLove @Kiana
+            Developed For @Luana_cafe 
         </div>
     );
 }

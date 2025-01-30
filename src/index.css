@@ -142,7 +142,8 @@ body {
     font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #e74c3c;
+    /* background: linear-gradient(to right, #bdc3c7, #2c3e50); */
+    background: linear-gradient(to right, #240b36, #c31432);
     font-weight: 500;
 }
 
