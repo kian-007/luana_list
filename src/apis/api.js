@@ -12,7 +12,7 @@ const Request = (path) => {
 const RestFulApi = (path) => {
     let finalResponse = Request(path);
     let thenProm = finalResponse.then(function (value) {
-        console.log("sucsessfull respnse: ", JSON.stringify(value));
+        console.log("sucsessfull response: ", JSON.stringify(value));
         // return JSON.stringify(value);
         return value
     });

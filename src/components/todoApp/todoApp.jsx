@@ -16,6 +16,16 @@ const TodoApp = () => {
     const [refresh, setRefresh] = useState(0)
     
 
+    // useEffect(() => {
+    //     let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=hey&arg1=kikian`)
+    //         res.then(function (value) {
+    //             console.log("response value: ", value)
+    //         });
+    //         res.catch(function (err) {
+    //             console.log("response err reason: ", err)
+    //         })
+    // },[])
+
     useEffect(() => {
 
         // let storedTasks = localStorage.getItem('tasks')
@@ -23,7 +33,7 @@ const TodoApp = () => {
         //     storedTasks = JSON.parse(storedTasks)
         //     setTasks(storedTasks)
         // } else {
-            let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=get_all_list`)
+            let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=get_all_list`)
             res.then(function (value) {
                 value.map(function (value) {
                     value.status  =  value.status - 0
@@ -79,7 +89,7 @@ const TodoApp = () => {
 
 
         const myJSON = JSON.stringify(lastTask);
-        let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=add_list&arg1=${myJSON}`)
+        let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=add_list&arg1=${myJSON}`)
             res.then(function (value) {
                 console.log("response value: ", value)
             });
@@ -102,7 +112,7 @@ const TodoApp = () => {
         // console.log("tasks", newTask)
 
 
-        let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=delete_list&arg1=${taskId}`)
+        let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=delete_list&arg1=${taskId}`)
             res.then(function (value) {
                 console.log("response value: ", value)
             });
@@ -134,7 +144,7 @@ const TodoApp = () => {
         setRefresh(refresh + 1)
 
         
-                let res = RestFulApi(`http://localhost/project2-php-backend/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
+                let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
                 res.then(function (value) {
                     console.log("list updated: ", value)
                 });
