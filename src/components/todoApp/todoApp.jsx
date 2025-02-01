@@ -26,6 +26,11 @@ const TodoApp = () => {
     //         })
     // },[])
 
+
+    let taskLength = tasks.length
+            let last = tasks[taskLength - 1]
+            // console.log("last: ", last)
+
     useEffect(() => {
 
         // let storedTasks = localStorage.getItem('tasks')
@@ -50,6 +55,7 @@ const TodoApp = () => {
                         }
                     ])
                 }
+                console.log("tasks: ", tasks)
             });
             res.catch(function (err) {
                 console.log("reason", err)
@@ -126,21 +132,21 @@ const TodoApp = () => {
     const handleChangeStatus = (taskId) => {
         let newTask = tasks
         const taskIndex = tasks.findIndex(task => task.id === taskId)
-
+        console.log("newTask[taskIndex].status:  ", !newTask[taskIndex].status)
         newTask[taskIndex].status = !newTask[taskIndex].status
+        newTask[taskIndex].status = Number(newTask[taskIndex].status)
+        setTasks(newTask)
+        // console.log("type: ", typeof(newTask[taskIndex].status));
         
 
         //-----------------------in mohem tarin bakhsh az in code (deqat shavad)(khodamm nafahmidm chera)------
-        if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
-            newTask[taskIndex].status = Number(newTask[taskIndex].status)
-        } 
+            if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
+                newTask[taskIndex].status = String(newTask[taskIndex].status)
+            } 
 
         //-----------------------
-
         
-        console.log("type: ", typeof(newTask[taskIndex].status));
-        setTasks(newTask)
-        localStorage.setItem('tasks', JSON.stringify(newTask))
+        // localStorage.setItem('tasks', JSON.stringify(newTask))
         setRefresh(refresh + 1)
 
         
