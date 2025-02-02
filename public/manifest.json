@@ -1,19 +1,19 @@
 {
-    "short_name": "ToDo",
-    "name": "Kucuk's ToDo",
+    "short_name": "MyList",
+    "name": "Luana's List",
     "icons": [{
-            "src": "logo.jpg",
+            "src": "luana.jpg",
             "sizes": "192x340",
             "type": "image/jpg"
         },
         {
-            "src": "logo192.png",
-            "type": "image/png",
+            "src": "luana.jpg",
+            "type": "image/jpg",
             "sizes": "192x192"
         },
         {
-            "src": "logo512.png",
-            "type": "image/png",
+            "src": "luana.jpg",
+            "type": "image/jpg",
             "sizes": "512x512"
         }
     ],
