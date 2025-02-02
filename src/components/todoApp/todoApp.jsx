@@ -64,19 +64,18 @@ const TodoApp = () => {
     }, [])
 
     useEffect(() => {
-        if (filter === 'all') {
-            setFilteredTasks(tasks)
-        }
+        let newFilteredTasks;
         if (filter === 'completed') {
-            const newCompletedFilteredTasks = tasks.filter(task => task.status)
-            setFilteredTasks(newCompletedFilteredTasks)
-        }
-        if (filter === 'active') {
-            const newActiveFilteredTasks = tasks.filter(task => !task.status)
-            setFilteredTasks(newActiveFilteredTasks)
-        }
+            newFilteredTasks = tasks.filter(task => task.status)
+        } else if (filter === 'active') {
+            newFilteredTasks = tasks.filter(task => !task.status)
+        } else if (filter === 'all') {
+            newFilteredTasks = tasks;
+        } 
+        setFilteredTasks(newFilteredTasks);
     }, [filter, tasks, refresh])
 
+    
     const addTask = (taskTitle, taskAmount) => {
         const newTasks = [
             ...tasks,
@@ -92,8 +91,6 @@ const TodoApp = () => {
         setTasks(newTasks)
         localStorage.setItem('tasks', JSON.stringify(newTasks))
 
-
-
         const myJSON = JSON.stringify(lastTask);
         let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=add_list&arg1=${myJSON}`)
             res.then(function (value) {
@@ -107,15 +104,15 @@ const TodoApp = () => {
 
 
     const deleteTask = (taskId) => {
-        let newTask = tasks
-        delete newTask[tasks.findIndex(task => task.id === taskId)]
-        newTask = newTask.filter((item) => item);
+        // let newTask = tasks
+        // delete newTask[tasks.findIndex(task => task.id === taskId)]
+        // newTask = newTask.filter((item) => item);
+
+        const newTask = tasks.filter( task => task.id !== taskId); /* AI solution */
+
         setTasks(newTask)
         localStorage.setItem('tasks', JSON.stringify(newTask))
 
-        // let newTask = tasks
-        // newTask.splice(tasks.findIndex(task=> task.id === taskId),0)
-        // console.log("tasks", newTask)
 
 
         let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=delete_list&arg1=${taskId}`)
@@ -128,35 +125,57 @@ const TodoApp = () => {
 
     }
 
-    // console.log("show me tasks: ", tasks)
     const handleChangeStatus = (taskId) => {
-        let newTask = tasks
-        const taskIndex = tasks.findIndex(task => task.id === taskId)
-        console.log("newTask[taskIndex].status:  ", !newTask[taskIndex].status)
-        newTask[taskIndex].status = !newTask[taskIndex].status
-        newTask[taskIndex].status = Number(newTask[taskIndex].status)
-        setTasks(newTask)
-        // console.log("type: ", typeof(newTask[taskIndex].status));
+        // let newTask = tasks
+        // const taskIndex = tasks.findIndex(task => task.id === taskId)
+        // console.log("newTask[taskIndex].status:  ", !newTask[taskIndex].status)
+        // newTask[taskIndex].status = !newTask[taskIndex].status
+        // newTask[taskIndex].status = Number(newTask[taskIndex].status)
+        // setTasks(newTask)
         
 
         //-----------------------in mohem tarin bakhsh az in code (deqat shavad)(khodamm nafahmidm chera)------
-            if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
-                newTask[taskIndex].status = String(newTask[taskIndex].status)
-            } 
+            // if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
+            //     newTask[taskIndex].status = String(newTask[taskIndex].status)
+            // } 
 
         //-----------------------
         
-        // localStorage.setItem('tasks', JSON.stringify(newTask))
         setRefresh(refresh + 1)
 
         
-                let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
-                res.then(function (value) {
-                    console.log("list updated: ", value)
-                });
-                res.catch(function (err) {
-                    console.log("list didnt update: ", err)
-                })
+                // let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
+                // res.then(function (value) {
+                //     console.log("list updated: ", value)
+                // });
+                // res.catch(function (err) {
+                //     console.log("list didnt update: ", err)
+                // })
+
+
+
+
+                /* AI solution */
+                const newTasks = tasks.map(task => 
+                    task.id === taskId ? { ...task, status: !task.status } :task
+                );
+                setTasks(newTasks);
+                setRefresh(refresh + 1);
+
+                const updatedTask = newTasks.find( task => task.id === taskId)
+                const statusToSend = updatedTask.status ? 1 : 0;
+                const data = {
+                    id: taskId,
+                    status: statusToSend
+                };
+                const myJSON = JSON.stringify(data);
+                RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${myJSON}`)
+                    .then(value => console.log("list updated", value))
+                    .catch(err => console.log("list didnt update", err));
+
+
+                
+
 
         
     }
