@@ -1,0 +1,24 @@
+.ul-offcanvas {
+    display: block;
+    height: 80%;
+}
+
+.ul-offcanvas li:first-child {
+    margin-top: 50px;
+}
+
+.ul-offcanvas li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 50px;
+    width: 100%;
+    transition-duration: 200ms;
+}
+
+.ul-offcanvas li:hover {
+    color: #9220207f;
+    /* border-bottom: 1px solid #8438381b; */
+    background-color: #8438380b;
+}
