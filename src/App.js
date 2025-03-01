@@ -1,5 +1,5 @@
 import './App.css';
-import react, { useEffect } from 'react';
+import react, { useEffect, useState } from 'react';
 import {
   Header,
   AddTaskForm,
@@ -13,6 +13,7 @@ import $ from 'jquery';
 
 
 function App() {
+  const [section, setSection] = useState("all");
 
   useEffect(() => {
     $("#menuButton").on('click', function () {
@@ -28,16 +29,18 @@ function App() {
       }
     })
 
-    
-
-
-
   }, [])
+
+
+  useEffect(() => {
+    console.log("Current Section is : ", section);
+  })
+
 
   return (
     <div className="App">
       <div id="menue">
-          <Offcanvas />
+        <Offcanvas updateSection={setSection} />
       </div>
       <Header />
       <TodoApp />
