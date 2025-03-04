@@ -17,13 +17,21 @@
     /* cursor: pointer; */
 }
 
-.ul-offcanvas li:hover button {
-    cursor: pointer;
-    color: #9220207f;
-    /* border-bottom: 1px solid #8438381b; */
+.ul-offcanvas li:hover {
     background-color: #8438380b;
 }
 
+.ul-offcanvas li:hover button {
+    cursor: pointer;
+    color: #922020c4;
+    font-weight: bold;
+    /* border-bottom: 1px solid #8438381b; */
+}
+
 .ul-offcanvas li button {
+    width: 100px;
     border: none;
+    border-bottom: 1px solid gray;
+    background-color: inherit;
+    text-align: left;
 }

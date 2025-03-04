@@ -52,6 +52,7 @@ const TodoApp = () => {
                         id: uuid(),
                         title: "Build Your First Task Partner (^_^)",
                         amount: "blah blah blah kiloo",
+                        section: "kitchen",
                         status: 0
                     }
                 ])
@@ -84,6 +85,7 @@ const TodoApp = () => {
                 id: uuid(),
                 title: taskTitle,
                 amount: taskAmount,
+                section: "kitchen",
                 status: 0
             },
         ]
@@ -127,33 +129,9 @@ const TodoApp = () => {
     }
 
     const handleChangeStatus = (taskId) => {
-        // let newTask = tasks
-        // const taskIndex = tasks.findIndex(task => task.id === taskId)
-        // console.log("newTask[taskIndex].status:  ", !newTask[taskIndex].status)
-        // newTask[taskIndex].status = !newTask[taskIndex].status
-        // newTask[taskIndex].status = Number(newTask[taskIndex].status)
-        // setTasks(newTask)
-
-
-        //-----------------------in mohem tarin bakhsh az in code (deqat shavad)(khodamm nafahmidm chera)------
-        // if(newTask[taskIndex].status == 1 || newTask[taskIndex].status == 'true'){
-        //     newTask[taskIndex].status = String(newTask[taskIndex].status)
-        // } 
-
-        //-----------------------
+       
 
         setRefresh(refresh + 1)
-
-
-        // let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${taskId}&arg2=${newTask[taskIndex].status}`)
-        // res.then(function (value) {
-        //     console.log("list updated: ", value)
-        // });
-        // res.catch(function (err) {
-        //     console.log("list didnt update: ", err)
-        // })
-
-
 
 
         /* AI solution */
@@ -173,9 +151,6 @@ const TodoApp = () => {
         RestFulApi(`https://kikiq.ir/apis/api2.php?fn=update_list&arg1=${myJSON}`)
             .then(value => console.log("list updated", value))
             .catch(err => console.log("list didnt update", err));
-
-
-
 
 
 
