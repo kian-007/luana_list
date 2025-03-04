@@ -19,11 +19,15 @@ function App() {
     $("#menuButton").on('click', function () {
       $("#menue").toggleClass('active');
       if ($("#menue").hasClass('active')) {
+        // $("#menue").css({'transition-duration': '1s'});
+        $("#menue").css({'display': 'block'});
         $("#menue").animate({ opacity: '1', right: '0px' }, 500)
         $(this).css({ 'background-color': 'gray' });
         $("#menuButton p").animate({ rotate: '-90deg' })
       } else {
-        $("#menue").animate({ opacity: '0.7', right: '-400px' }, 500)
+        // $("#menue").css({'transition-duration': '2s'});
+        $("#menue").animate({ opacity: '0.7', right: '-400px' }, 550)
+        $("#menue").css({'display': 'hide'})
         $(this).css({ 'background-color': 'white' });
         $("#menuButton p").animate({ rotate: '0deg' })
       }
