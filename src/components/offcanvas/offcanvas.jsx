@@ -9,6 +9,11 @@ const Offcanvas = ({updateSection}) => {
   return (
     <ul className="ul-offcanvas">
       <li>
+        <button onClick={() => { updateSection("all") }}>
+          1- All
+        </button>
+      </li>
+      <li>
         <button onClick={() => { updateSection("kitchen") }}>
           1- Kitchen
         </button>

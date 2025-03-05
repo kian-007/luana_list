@@ -10,35 +10,24 @@ import { RestFulApi } from '../../apis/api';
 import { MdArrowBackIos } from "react-icons/md";
 
 
-const TodoApp = () => {
+const TodoApp = ({ section, updateSection }) => {
     const [tasks, setTasks] = useState([])
     const [filteredTasks, setFilteredTasks] = useState([])
     const [filter, setFilter] = useState('all')
     const [refresh, setRefresh] = useState(0)
 
 
-    // useEffect(() => {
-    //     let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=hey&arg1=kikian`)
-    //         res.then(function (value) {
-    //             console.log("response value: ", value)
-    //         });
-    //         res.catch(function (err) {
-    //             console.log("response err reason: ", err)
-    //         })
-    // },[])
+    useEffect(() => {
+        console.log("Current Section is : ", section);
+    })
 
 
     let taskLength = tasks.length
     let last = tasks[taskLength - 1]
-    // console.log("last: ", last)
 
     useEffect(() => {
 
-        // let storedTasks = localStorage.getItem('tasks')
-        // if (storedTasks) {
-        //     storedTasks = JSON.parse(storedTasks)
-        //     setTasks(storedTasks)
-        // } else {
+
         let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=get_all_list`)
         res.then(function (value) {
             value.map(function (value) {
@@ -67,6 +56,7 @@ const TodoApp = () => {
 
     useEffect(() => {
         let newFilteredTasks;
+        let finalFilteredTasks
         if (filter === 'completed') {
             newFilteredTasks = tasks.filter(task => task.status)
         } else if (filter === 'active') {
@@ -74,8 +64,16 @@ const TodoApp = () => {
         } else if (filter === 'all') {
             newFilteredTasks = tasks;
         }
-        setFilteredTasks(newFilteredTasks);
-    }, [filter, tasks, refresh])
+        // setFilteredTasks(newFilteredTasks);
+        if (section === 'all') {
+            setFilteredTasks(newFilteredTasks);
+        } else {
+            finalFilteredTasks = newFilteredTasks.filter(task => task.section == section)
+            setFilteredTasks(finalFilteredTasks);
+        }
+
+    }, [filter, tasks, refresh, section])
+
 
 
     const addTask = (taskTitle, taskAmount) => {
@@ -85,7 +83,7 @@ const TodoApp = () => {
                 id: uuid(),
                 title: taskTitle,
                 amount: taskAmount,
-                section: "kitchen",
+                section: section === 'all' ? section = 'kitchen' : section,
                 status: 0
             },
         ]
@@ -107,16 +105,11 @@ const TodoApp = () => {
 
 
     const deleteTask = (taskId) => {
-        // let newTask = tasks
-        // delete newTask[tasks.findIndex(task => task.id === taskId)]
-        // newTask = newTask.filter((item) => item);
 
         const newTask = tasks.filter(task => task.id !== taskId); /* AI solution */
 
         setTasks(newTask)
         localStorage.setItem('tasks', JSON.stringify(newTask))
-
-
 
         let res = RestFulApi(`https://kikiq.ir/apis/api2.php?fn=delete_list&arg1=${taskId}`)
         res.then(function (value) {
@@ -129,7 +122,7 @@ const TodoApp = () => {
     }
 
     const handleChangeStatus = (taskId) => {
-       
+
 
         setRefresh(refresh + 1)
 
